@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
+import android.os.AsyncTask;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.net.URL;
 
 import de.dhbw.mosbach.nfccrossmedia.utilities.NetworkUtils;
@@ -50,8 +52,29 @@ public class NfcTagDiscovered extends AppCompatActivity {
     }
 
     private void triggerApiCall(String NfcContent){
-        TextView nfcTextView = findViewById(R.id.nfcTextView);
         URL apiURL = NetworkUtils.buildUrl(NfcContent);
-        nfcTextView.setText(apiURL.toString());
+        new ProductTask().execute(apiURL);
+    }
+
+    public class ProductTask extends AsyncTask<URL, Void, String> {
+        @Override
+        protected String doInBackground(URL... urls) {
+            URL productUrl = urls[0];
+            String productResult = null;
+            try {
+                productResult = NetworkUtils.getResponseFromHttpUrl(productUrl);
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+            return productResult;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            if (s != null && !s.equals("")){
+                TextView nfcTextView = findViewById(R.id.nfcTextView);
+                nfcTextView.setText(s);
+            }
+        }
     }
 }
