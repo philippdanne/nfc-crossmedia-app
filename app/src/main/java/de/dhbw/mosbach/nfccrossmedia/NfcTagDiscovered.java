@@ -11,7 +11,9 @@ import android.widget.TextView;
 
 import java.net.URL;
 
-public class NfcTagDiscovered extends AppCompatActivity<URL, Void, String> {
+import de.dhbw.mosbach.nfccrossmedia.utilities.NetworkUtils;
+
+public class NfcTagDiscovered extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,8 @@ public class NfcTagDiscovered extends AppCompatActivity<URL, Void, String> {
                 String payloadString = new String(dataRecord.getPayload());
 
                 TextView nfcTextView = findViewById(R.id.nfcTextView);
-                nfcTextView.setText(payloadString);
+                URL apiURL = NetworkUtils.buildUrl(payloadString);
+                nfcTextView.setText(apiURL.toString());
             }
         }
     }
@@ -51,7 +54,8 @@ public class NfcTagDiscovered extends AppCompatActivity<URL, Void, String> {
                 String payloadString = new String(dataRecord.getPayload());
 
                 TextView nfcTextView = findViewById(R.id.nfcTextView);
-                nfcTextView.setText(payloadString);
+                URL apiURL = NetworkUtils.buildUrl(payloadString);
+                nfcTextView.setText(apiURL.toString());
             }
         }
     }
