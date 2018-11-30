@@ -9,7 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class NfcTagDiscovered extends AppCompatActivity {
+import java.net.URL;
+
+public class NfcTagDiscovered extends AppCompatActivity<URL, Void, String> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
