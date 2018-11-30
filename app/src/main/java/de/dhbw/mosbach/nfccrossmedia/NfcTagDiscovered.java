@@ -24,26 +24,17 @@ public class NfcTagDiscovered extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
-            Parcelable[] rawMessages =
-                    intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-            if (rawMessages != null) {
-                NdefMessage message = (NdefMessage) rawMessages[0];
-                NdefRecord dataRecord = message.getRecords()[1];
-
-                String payloadString = new String(dataRecord.getPayload());
-
-                TextView nfcTextView = findViewById(R.id.nfcTextView);
-                URL apiURL = NetworkUtils.buildUrl(payloadString);
-                nfcTextView.setText(apiURL.toString());
-            }
-        }
+        getNfcData(intent);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Intent intent = getIntent();
+        getNfcData(intent);
+    }
+
+    private void getNfcData(Intent intent){
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
             Parcelable[] rawMessages =
                     intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
@@ -53,10 +44,14 @@ public class NfcTagDiscovered extends AppCompatActivity {
 
                 String payloadString = new String(dataRecord.getPayload());
 
-                TextView nfcTextView = findViewById(R.id.nfcTextView);
-                URL apiURL = NetworkUtils.buildUrl(payloadString);
-                nfcTextView.setText(apiURL.toString());
+                this.triggerApiCall(payloadString);
             }
         }
+    }
+
+    private void triggerApiCall(String NfcContent){
+        TextView nfcTextView = findViewById(R.id.nfcTextView);
+        URL apiURL = NetworkUtils.buildUrl(NfcContent);
+        nfcTextView.setText(apiURL.toString());
     }
 }
