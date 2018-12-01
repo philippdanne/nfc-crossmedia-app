@@ -9,8 +9,11 @@ import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,17 +25,19 @@ import de.dhbw.mosbach.nfccrossmedia.utilities.NetworkUtils;
 
 public class NfcTagDiscovered extends AppCompatActivity {
 
-    protected TextView nfcTextView;
+    protected TextView productNameTextView;
     protected ProgressBar loadingApiProgressBar;
     protected TextView nfcErrorTextView;
+    protected ImageView productImageImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nfc_tag_discovered);
-        nfcTextView = findViewById(R.id.nfcTextView);
-        loadingApiProgressBar = findViewById(R.id.loadingApiProgressBar);
-        nfcErrorTextView = findViewById(R.id.nfcErrorTextView);
+        productNameTextView = (TextView) findViewById(R.id.productNameTextView);
+        productImageImageView = (ImageView) findViewById(R.id.productImageImageView);
+        loadingApiProgressBar = (ProgressBar) findViewById(R.id.loadingApiProgressBar);
+        nfcErrorTextView = (TextView) findViewById(R.id.nfcErrorTextView);
     }
 
     @Override
@@ -71,20 +76,26 @@ public class NfcTagDiscovered extends AppCompatActivity {
     private void parseJson(String fullJson) throws JSONException {
         JSONObject product = new JSONObject(fullJson);
         String productName = product.getString("productName");
+        String productImage = product.getString("productImage");
         showJsonDataView();
-        nfcTextView.setText(productName);
+        fillWithJsonData(productName, null, null, productImage);
     }
 
     private void showJsonDataView(){
         loadingApiProgressBar.setVisibility(View.GONE);
         nfcErrorTextView.setVisibility(View.GONE);
-        nfcTextView.setVisibility(View.VISIBLE);
+        productNameTextView.setVisibility(View.VISIBLE);
     }
 
     private void showErrorMessage(){
         loadingApiProgressBar.setVisibility(View.GONE);
         nfcErrorTextView.setVisibility(View.VISIBLE);
-        nfcTextView.setVisibility(View.GONE);
+        productNameTextView.setVisibility(View.GONE);
+    }
+
+    private void fillWithJsonData(String productName, String productColor, String productDescription, String productImage){
+        productNameTextView.setText(productImage);
+        Glide.with(this).load(productImage).into(productImageImageView);
     }
 
     public class ProductTask extends AsyncTask<URL, Void, String> {
