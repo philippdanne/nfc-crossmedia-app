@@ -12,6 +12,9 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.net.URL;
 
@@ -65,6 +68,13 @@ public class NfcTagDiscovered extends AppCompatActivity {
         new ProductTask().execute(apiURL);
     }
 
+    private void parseJson(String fullJson) throws JSONException {
+        JSONObject product = new JSONObject(fullJson);
+        String productName = product.getString("productName");
+        showJsonDataView();
+        nfcTextView.setText(productName);
+    }
+
     private void showJsonDataView(){
         loadingApiProgressBar.setVisibility(View.GONE);
         nfcErrorTextView.setVisibility(View.GONE);
@@ -94,8 +104,11 @@ public class NfcTagDiscovered extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             if (s != null && !s.equals("")){
-                showJsonDataView();
-                nfcTextView.setText(s);
+                try {
+                    parseJson(s);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             } else {
                 showErrorMessage();
             }
