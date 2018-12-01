@@ -3,4 +3,5 @@
     <string name="action_settings">Settings</string>
     <string name="no_internet_connection">Keine Internetverbindung</string>
     <string name="error_no_result">Es konnte kein Ergebnis gefunden werden</string>
+    <string name="app_initial">Bitte NFC-Tag scannen</string>
 </resources>

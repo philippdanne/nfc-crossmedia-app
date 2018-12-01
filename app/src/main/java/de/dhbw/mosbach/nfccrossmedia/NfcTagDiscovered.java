@@ -28,6 +28,7 @@ public class NfcTagDiscovered extends AppCompatActivity {
     protected TextView productNameTextView;
     protected ProgressBar loadingApiProgressBar;
     protected TextView nfcErrorTextView;
+    protected TextView productDescriptionTextView;
     protected ImageView productImageImageView;
 
     @Override
@@ -38,6 +39,7 @@ public class NfcTagDiscovered extends AppCompatActivity {
         productImageImageView = (ImageView) findViewById(R.id.productImageImageView);
         loadingApiProgressBar = (ProgressBar) findViewById(R.id.loadingApiProgressBar);
         nfcErrorTextView = (TextView) findViewById(R.id.nfcErrorTextView);
+        productDescriptionTextView = (TextView) findViewById(R.id.productDescriptionTextView);
     }
 
     @Override
@@ -77,8 +79,9 @@ public class NfcTagDiscovered extends AppCompatActivity {
         JSONObject product = new JSONObject(fullJson);
         String productName = product.getString("productName");
         String productImage = product.getString("productImage");
+        String productDescription = product.getString("productDescription");
         showJsonDataView();
-        fillWithJsonData(productName, null, null, productImage);
+        fillWithJsonData(productName, null, productDescription, productImage);
     }
 
     private void showJsonDataView(){
@@ -94,7 +97,8 @@ public class NfcTagDiscovered extends AppCompatActivity {
     }
 
     private void fillWithJsonData(String productName, String productColor, String productDescription, String productImage){
-        productNameTextView.setText(productImage);
+        productNameTextView.setText(productName);
+        productDescriptionTextView.setText(productDescription);
         Glide.with(this).load(productImage).into(productImageImageView);
     }
 
