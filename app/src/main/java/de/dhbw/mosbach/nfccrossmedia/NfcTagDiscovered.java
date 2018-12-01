@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -17,10 +19,17 @@ import de.dhbw.mosbach.nfccrossmedia.utilities.NetworkUtils;
 
 public class NfcTagDiscovered extends AppCompatActivity {
 
+    protected TextView nfcTextView;
+    protected ProgressBar loadingApiProgressBar;
+    protected TextView nfcErrorTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nfc_tag_discovered);
+        nfcTextView = findViewById(R.id.nfcTextView);
+        loadingApiProgressBar = findViewById(R.id.loadingApiProgressBar);
+        nfcErrorTextView = findViewById(R.id.nfcErrorTextView);
     }
 
     @Override
@@ -56,7 +65,20 @@ public class NfcTagDiscovered extends AppCompatActivity {
         new ProductTask().execute(apiURL);
     }
 
+    private void showJsonDataView(){
+        loadingApiProgressBar.setVisibility(View.GONE);
+        nfcErrorTextView.setVisibility(View.GONE);
+        nfcTextView.setVisibility(View.VISIBLE);
+    }
+
+    private void showErrorMessage(){
+        loadingApiProgressBar.setVisibility(View.GONE);
+        nfcErrorTextView.setVisibility(View.VISIBLE);
+        nfcTextView.setVisibility(View.GONE);
+    }
+
     public class ProductTask extends AsyncTask<URL, Void, String> {
+
         @Override
         protected String doInBackground(URL... urls) {
             URL productUrl = urls[0];
@@ -72,8 +94,10 @@ public class NfcTagDiscovered extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             if (s != null && !s.equals("")){
-                TextView nfcTextView = findViewById(R.id.nfcTextView);
+                showJsonDataView();
                 nfcTextView.setText(s);
+            } else {
+                showErrorMessage();
             }
         }
     }
