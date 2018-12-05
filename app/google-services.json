@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "474332420188-knqndsnfa216uqsgelqcgjbqogd96082.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "de.dhbw.mosbach.nfccrossmedia",
+            "certificate_hash": "46fdcc13767420408aab4b8ef0d6f8edff92a318"
+          }
+        },
+        {
           "client_id": "474332420188-8q16ievaac357i4majmg0h3ur5im3jo5.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474332420188-8q16ievaac357i4majmg0h3ur5im3jo5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

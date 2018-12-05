@@ -8,12 +8,18 @@ import android.os.AsyncTask;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,6 +27,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.URL;
 
+import de.dhbw.mosbach.nfccrossmedia.data.Product;
 import de.dhbw.mosbach.nfccrossmedia.utilities.NetworkUtils;
 
 public class NfcTagDiscovered extends AppCompatActivity {
@@ -30,11 +37,14 @@ public class NfcTagDiscovered extends AppCompatActivity {
     protected TextView nfcErrorTextView;
     protected TextView productDescriptionTextView;
     protected ImageView productImageImageView;
+    private DatabaseReference mProductReference;
+    protected String nfcPayloadString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nfc_tag_discovered);
+
         productNameTextView = (TextView) findViewById(R.id.productNameTextView);
         productImageImageView = (ImageView) findViewById(R.id.productImageImageView);
         loadingApiProgressBar = (ProgressBar) findViewById(R.id.loadingApiProgressBar);
@@ -63,25 +73,11 @@ public class NfcTagDiscovered extends AppCompatActivity {
                 NdefMessage message = (NdefMessage) rawMessages[0];
                 NdefRecord dataRecord = message.getRecords()[1];
 
-                String payloadString = new String(dataRecord.getPayload());
+                nfcPayloadString = new String(dataRecord.getPayload());
 
-                this.triggerApiCall(payloadString);
+                this.getDataFromFirebase();
             }
         }
-    }
-
-    private void triggerApiCall(String NfcContent){
-        URL apiURL = NetworkUtils.buildUrl(NfcContent);
-        new ProductTask().execute(apiURL);
-    }
-
-    private void parseJson(String fullJson) throws JSONException {
-        JSONObject product = new JSONObject(fullJson);
-        String productName = product.getString("productName");
-        String productImage = product.getString("productImage");
-        String productDescription = product.getString("productDescription");
-        showJsonDataView();
-        fillWithJsonData(productName, null, productDescription, productImage);
     }
 
     private void showJsonDataView(){
@@ -102,31 +98,30 @@ public class NfcTagDiscovered extends AppCompatActivity {
         Glide.with(this).load(productImage).into(productImageImageView);
     }
 
-    public class ProductTask extends AsyncTask<URL, Void, String> {
+    private void getDataFromFirebase() {
+        mProductReference = FirebaseDatabase.getInstance().getReference().child(nfcPayloadString);
 
-        @Override
-        protected String doInBackground(URL... urls) {
-            URL productUrl = urls[0];
-            String productResult = null;
-            try {
-                productResult = NetworkUtils.getResponseFromHttpUrl(productUrl);
-            } catch (IOException e){
-                e.printStackTrace();
-            }
-            return productResult;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            if (s != null && !s.equals("")){
-                try {
-                    parseJson(s);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        ValueEventListener productListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Get Post object and use the values to update the UI
+                Product product = dataSnapshot.getValue(Product.class);
+                if(product != null){
+                    showJsonDataView();
+                    fillWithJsonData(product.productName, null, product.productDescription, null);
                 }
-            } else {
-                showErrorMessage();
+                else {
+                    showErrorMessage();
+                }
             }
-        }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w("TAG", "loadPost:onCancelled", databaseError.toException());
+                // ...
+            }
+        };
+        mProductReference.addListenerForSingleValueEvent(productListener);
     }
 }
