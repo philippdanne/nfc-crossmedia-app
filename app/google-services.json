@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "474332420188",
+    "firebase_url": "https://dhbw-nfc.firebaseio.com",
+    "project_id": "dhbw-nfc",
+    "storage_bucket": "dhbw-nfc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474332420188:android:3c31f897a1b3988d",
+        "android_client_info": {
+          "package_name": "de.dhbw.mosbach.nfccrossmedia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474332420188-8q16ievaac357i4majmg0h3ur5im3jo5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCR4OTD0TGojdWlhvfgZgWj52DMIAGP5Fk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
