@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
-import android.os.AsyncTask;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,14 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.net.URL;
-
 import de.dhbw.mosbach.nfccrossmedia.data.Product;
-import de.dhbw.mosbach.nfccrossmedia.utilities.NetworkUtils;
 
 public class NfcTagDiscovered extends AppCompatActivity {
 
@@ -99,7 +91,7 @@ public class NfcTagDiscovered extends AppCompatActivity {
     }
 
     private void getDataFromFirebase() {
-        mProductReference = FirebaseDatabase.getInstance().getReference().child(nfcPayloadString);
+        mProductReference = FirebaseDatabase.getInstance().getReference().child("products").child(nfcPayloadString);
 
         ValueEventListener productListener = new ValueEventListener() {
             @Override
@@ -108,7 +100,7 @@ public class NfcTagDiscovered extends AppCompatActivity {
                 Product product = dataSnapshot.getValue(Product.class);
                 if(product != null){
                     showJsonDataView();
-                    fillWithJsonData(product.productName, null, product.productDescription, null);
+                    fillWithJsonData(product.productName, null, product.productDescription, product.getProductImages(0));
                 }
                 else {
                     showErrorMessage();
