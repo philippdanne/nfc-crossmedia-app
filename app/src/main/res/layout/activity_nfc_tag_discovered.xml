@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context="de.dhbw.mosbach.nfccrossmedia.NfcTagDiscovered"
     tools:layout_editor_absoluteY="81dp">
 
@@ -16,7 +17,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/productNameTextView"
+        app:layout_constraintTop_toBottomOf="parent"
         tools:visibility="gone" />
 
     <TextView
@@ -62,10 +63,10 @@
                     android:id="@+id/productNameTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:fontFamily="@font/playfairdisplayblack"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/RozhaOneregular"
                     android:textAllCaps="false"
                     android:textColor="@color/colorText"
                     android:textSize="24sp"
@@ -93,10 +94,25 @@
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/productNameTextView"
+                    app:layout_constraintVertical_bias="0.0"
                     tools:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod." />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/relatedProductsRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/productDescriptionTextView"
+                    tools:listitem="@layout/item_related_product" />
 
             </android.support.constraint.ConstraintLayout>
 
