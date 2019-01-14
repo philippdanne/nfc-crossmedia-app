@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -38,6 +39,7 @@ public class NfcTagDiscovered extends AppCompatActivity {
     private DatabaseReference mProductReference;
     protected String nfcPayloadString;
     protected RecyclerView relatedProductsRecyclerView;
+    protected ScrollView productContentScrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class NfcTagDiscovered extends AppCompatActivity {
         nfcErrorTextView = (TextView) findViewById(R.id.nfcErrorTextView);
         productDescriptionTextView = (TextView) findViewById(R.id.productDescriptionTextView);
         relatedProductsRecyclerView = (RecyclerView) findViewById(R.id.relatedProductsRecyclerView);
+        productContentScrollView = (ScrollView) findViewById(R.id.productContentScrollView);
     }
 
     @Override
@@ -83,13 +86,13 @@ public class NfcTagDiscovered extends AppCompatActivity {
     private void showJsonDataView(){
         loadingApiProgressBar.setVisibility(View.GONE);
         nfcErrorTextView.setVisibility(View.GONE);
-        productNameTextView.setVisibility(View.VISIBLE);
+        productContentScrollView.setVisibility(View.VISIBLE);
     }
 
     private void showErrorMessage(){
         loadingApiProgressBar.setVisibility(View.GONE);
         nfcErrorTextView.setVisibility(View.VISIBLE);
-        productNameTextView.setVisibility(View.GONE);
+        productContentScrollView.setVisibility(View.GONE);
     }
 
     private void fillWithJsonData(String productName, String productColor, String productDescription, String productImage){
@@ -99,9 +102,10 @@ public class NfcTagDiscovered extends AppCompatActivity {
     }
 
     private void setRelatedProducts(ArrayList<RelatedProduct> relatedProducts){
-        RelatedProductsAdapter productsAdapter = new RelatedProductsAdapter(relatedProducts);
+        RelatedProductsAdapter productsAdapter = new RelatedProductsAdapter(Glide.with(this), relatedProducts);
         relatedProductsRecyclerView.setAdapter(productsAdapter);
-        relatedProductsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        relatedProductsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
     }
 
     private void getDataFromFirebase() {
@@ -122,6 +126,7 @@ public class NfcTagDiscovered extends AppCompatActivity {
                         relatedProducts.add(relatedProduct);
                     }
                     setRelatedProducts(relatedProducts);
+
                 }
                 else {
                     showErrorMessage();

@@ -7,21 +7,27 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import de.dhbw.mosbach.nfccrossmedia.NfcTagDiscovered;
 import de.dhbw.mosbach.nfccrossmedia.R;
 import de.dhbw.mosbach.nfccrossmedia.data.RelatedProduct;
 
 public class RelatedProductsAdapter extends
         RecyclerView.Adapter<RelatedProductsAdapter.RPViewHolder> {
-
     private ArrayList<RelatedProduct> vRelatedProducts;
+    private RequestManager glide;
 
     // Pass in the contact array into the constructor
-    public RelatedProductsAdapter(ArrayList<RelatedProduct> relatedProducts) {
+    public RelatedProductsAdapter(RequestManager glide, ArrayList<RelatedProduct> relatedProducts) {
+        this.glide = glide;
         vRelatedProducts = relatedProducts;
     }
 
@@ -45,6 +51,7 @@ public class RelatedProductsAdapter extends
 
         // Set item views based on your views and data model
         holder.nameTextView.setText(relatedProduct.productName);
+        glide.load(relatedProduct.getProductImages(0)).into(holder.imageImageView);
     }
 
     @Override
@@ -57,6 +64,7 @@ public class RelatedProductsAdapter extends
         // for any view that will be set as you render a row
         public TextView nameTextView;
         public TextView descriptionTextView;
+        public ImageView imageImageView;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -66,6 +74,7 @@ public class RelatedProductsAdapter extends
             super(itemView);
 
             nameTextView = (TextView) itemView.findViewById(R.id.relatedProductNameTextView);
+            imageImageView = (ImageView) itemView.findViewById(R.id.relatedProductImageImageView);
         }
     }
 }
