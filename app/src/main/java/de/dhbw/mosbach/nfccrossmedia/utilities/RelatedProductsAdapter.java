@@ -63,7 +63,6 @@ public class RelatedProductsAdapter extends
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
         public TextView nameTextView;
-        public TextView descriptionTextView;
         public ImageView imageImageView;
 
         // We also create a constructor that accepts the entire item row

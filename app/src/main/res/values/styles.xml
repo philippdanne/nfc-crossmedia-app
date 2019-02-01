@@ -17,7 +17,7 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="NFCAppTheme" parent="Theme.AppCompat.NoActionBar" >
+    <style name="NFCAppTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:colorBackground">@color/colorPrimary</item>
@@ -41,6 +41,22 @@
         <item name="android:textColor">@color/colorAccent</item>
         <item name="android:fontFamily">@font/karla700</item>
         <item name="android:background">@drawable/button_shape</item>
+        <item name="android:paddingLeft">25dp</item>
+        <item name="android:paddingRight">25dp</item>
     </style>
+
+    <style name="HeaderBar">
+        <item name="android:fontFamily">@font/karla700</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="NFCAppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="NFCAppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="NFCAppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

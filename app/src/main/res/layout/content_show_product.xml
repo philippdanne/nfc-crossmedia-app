@@ -4,15 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    tools:context="de.dhbw.mosbach.nfccrossmedia.NfcTagDiscovered"
-    tools:layout_editor_absoluteY="81dp">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".ShowProductActivity"
+    tools:showIn="@layout/activity_show_product">
 
     <ScrollView
         android:id="@+id/productContentScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible">
 
         <android.support.constraint.ConstraintLayout
@@ -24,6 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
+                android:textAlignment="center"
                 android:textAppearance="@style/Heading"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -48,9 +50,11 @@
             <Button
                 android:id="@+id/productBuyButton"
                 style="@style/PrimaryButton"
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
                 android:text="@string/add_to_cart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"

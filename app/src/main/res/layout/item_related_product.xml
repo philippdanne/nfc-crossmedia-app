@@ -26,6 +26,7 @@
             android:layout_marginBottom="16dp"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toTopOf="@+id/relatedProductNameTextView"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/example_pic" />
 

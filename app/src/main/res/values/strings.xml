@@ -4,6 +4,9 @@
     <string name="no_internet_connection">Keine Internetverbindung</string>
     <string name="error_no_result">Es konnte kein Ergebnis gefunden werden</string>
     <string name="app_initial">Bitte NFC-Tag scannen</string>
-    <string name="add_to_cart">Kaufen</string>
+    <string name="add_to_cart">In den Warenkorb</string>
     <string name="image_alt">Produktbild</string>
+    <string name="title_activity_show_product">ShowProductActivity</string>
+    <string name="to_buy_online">Online kaufen</string>
+    <string name="to_buy_instore">Im Store reservieren</string>
 </resources>
