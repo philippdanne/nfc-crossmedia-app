@@ -1,5 +1,7 @@
 package de.dhbw.mosbach.nfccrossmedia.data;
 
+import android.arch.persistence.room.Entity;
+
 public class CartObject {
     private Product product;
     private int count;

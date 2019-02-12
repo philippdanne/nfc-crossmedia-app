@@ -25,12 +25,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         // each data item is just a string in this case
         public TextView productNameTextView;
         public TextView productCountTextView;
+        public TextView addProduct;
+        public TextView subtractProduct;
         public ImageView productImageImageView;
         public CartViewHolder(View v) {
             super(v);
             productCountTextView = v.findViewById(R.id.cart_product_count);
             productNameTextView = v.findViewById(R.id.cart_product_name);
             productImageImageView = v.findViewById(R.id.cart_product_image);
+            addProduct = v.findViewById(R.id.cart_add);
+            subtractProduct = v.findViewById(R.id.cart_subtract);
         }
     }
 
@@ -57,7 +61,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     public void onBindViewHolder(CartViewHolder holder, int position) {
         holder.productNameTextView.setText(cartList.get(position).getProduct().productName);
         holder.productCountTextView.setText(cartList.get(position).getCount());
-        glide.load(cartList.get(position).getProduct().getProductImages(0)).into(holder.productImageImageView);
+        glide.load(cartList.get(position).getProduct().productImage).into(holder.productImageImageView);
     }
 
     // Return the size of your dataset (invoked by the layout manager)

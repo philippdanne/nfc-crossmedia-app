@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -28,11 +29,15 @@ public class CartActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager cartLayoutManager;
     protected TextView cartCount;
     protected Button toReserveInstore;
+    private TextView cartSum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+        Toolbar toolbar = findViewById(R.id.toolbarApp);
+        setSupportActionBar(toolbar);
+
         cartRecyclerView = (RecyclerView) findViewById(R.id.cart_recycler_view);
 
         cartList = ((NFCCrossmediaApplication) this.getApplication()).getCart();
@@ -44,7 +49,7 @@ public class CartActivity extends AppCompatActivity {
         cartRecyclerView.setAdapter(cartAdapter);
 
         cartCount = findViewById(R.id.cart_count);
-        cartCount.setText(((NFCCrossmediaApplication) this.getApplication()).getCartCount());
+        cartCount.setText(((NFCCrossmediaApplication) this.getApplication()).getCartCount() + "  Artikel");
 
         toReserveInstore = findViewById(R.id.to_reserve_instore);
 
@@ -53,5 +58,8 @@ public class CartActivity extends AppCompatActivity {
                 CartActivity.this.startActivity(new Intent(CartActivity.this, ChooseStoreActivity.class));
             }
         });
+
+        cartSum = findViewById(R.id.cart_sum);
+        cartSum.setText("Gesamtsumme: " + ((NFCCrossmediaApplication) this.getApplication()).getCartPrice());
     }
 }

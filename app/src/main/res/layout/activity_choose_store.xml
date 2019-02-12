@@ -6,4 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".ChooseStoreActivity">
 
+    <include
+        android:id="@+id/toolbarApp"
+        layout="@layout/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="56dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarApp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/store_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/toolbarApp"
+            tools:layout_editor_absoluteX="0dp" />
+    </ScrollView>
+
 </android.support.constraint.ConstraintLayout>

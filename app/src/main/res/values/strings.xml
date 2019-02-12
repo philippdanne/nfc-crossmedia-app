@@ -1,12 +1,22 @@
 <resources>
-    <string name="app_name">NFC Crossmedia</string>
+    <string name="app_name">FashionSpot</string>
     <string name="action_settings">Settings</string>
     <string name="no_internet_connection">Keine Internetverbindung</string>
     <string name="error_no_result">Es konnte kein Ergebnis gefunden werden</string>
-    <string name="app_initial">Bitte NFC-Tag scannen</string>
+    <string name="app_initial">Halte dein Smartphone an das Plakat, um mehr Informationen zum Produkt zu erhalten</string>
     <string name="add_to_cart">In den Warenkorb</string>
+    <string name="added_to_cart">In den Warenkorb gelegt</string>
     <string name="image_alt">Produktbild</string>
-    <string name="title_activity_show_product">ShowProductActivity</string>
+    <string name="title_activity_show_product">Produkt</string>
     <string name="to_buy_online">Online kaufen</string>
     <string name="to_buy_instore">Im Store reservieren</string>
+    <string name="title_activity_cart">Warenkorb</string>
+    <string name="title_activity_store">Store auswählen</string>
+    <string name="accept_agb">Ich habe die Allgemeinen Geschäftsbedingungen gelesen und akzeptiere diese.</string>
+    <string name="accept_conditions">Ich bestätige, meine Bestellung innerhalb der nächsten 72 Stunden abhole und nehme in Kenntnis, dass ich bei Nichterfüllen eine Bearbeitungsgebühr von 5,00€ zu zahlen habe.</string>
+    <string name="confirm_order">Kostenpflichtig reservieren</string>
+    <string name="description_heading">Produktbeschreibung</string>
+    <string name="care_heading">Pflege</string>
+    <string name="thank_you_order">Danke für deine Bestellung!</string>
+    <string name="start_route_to_store">Weg zum Store zeigen</string>
 </resources>

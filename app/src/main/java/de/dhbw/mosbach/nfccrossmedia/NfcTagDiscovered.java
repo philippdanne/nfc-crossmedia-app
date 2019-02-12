@@ -42,7 +42,7 @@ public class NfcTagDiscovered extends AppCompatActivity {
 
                 // Hier muss die andere Activity gestartet werden
                 Intent nfcIntent = new Intent(NfcTagDiscovered.this, ShowProductActivity.class);
-                nfcIntent.putExtra("nfcPayload", nfcPayloadString);
+                nfcIntent.putExtra("productId", nfcPayloadString);
                 NfcTagDiscovered.this.startActivity(nfcIntent);
             }
         }

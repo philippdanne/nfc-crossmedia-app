@@ -14,9 +14,9 @@ public class Product {
 
     public String productName;
     public String productDescription;
-    public ArrayList<String> productImages;
+    public String productImage;
     public ArrayList<String> relatedProducts;
-    public String imgUrl;
+    public double productPrice;
     public String prdctId;
     public ArrayList<RelatedProduct> prdctsArrayList;
 
@@ -24,28 +24,21 @@ public class Product {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public Product(String productName, String productDescription, ArrayList<String> productImages, ArrayList<String> relatedProducts) {
+    public Product(String productName, double productPrice, String productDescription, String productImage, ArrayList<String> relatedProducts) {
         this.productName = productName;
         this.productDescription = productDescription;
-        this.productImages = productImages;
+        this.productImage = productImage;
         this.relatedProducts = relatedProducts;
         this.prdctsArrayList = new ArrayList<>();
+        this.productPrice = productPrice;
     }
 
-    public String getProductImages(int imgNo) {
-        try {
-            JSONArray imgsJson = new JSONArray(productImages);
-            ArrayList<String> imgsArrayList = new ArrayList<String>();
-            if (imgsJson != null) {
-                for (int i = 0; i < imgsJson.length(); i++) {
-                    imgsArrayList.add(imgsJson.getString(i));
-                }
-            }
-            imgUrl = imgsArrayList.get(imgNo);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return imgUrl;
+    public String getProductPriceString(){
+        String returnString = "";
+        returnString = Double.toString(productPrice);
+        returnString = returnString.replace(".", ",");
+        returnString += " €";
+        return returnString;
     }
 
     public String getProductId(int prNo) {

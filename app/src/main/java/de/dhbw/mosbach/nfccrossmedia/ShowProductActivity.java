@@ -1,12 +1,8 @@
 package de.dhbw.mosbach.nfccrossmedia;
 
+import android.arch.persistence.room.Room;
 import android.content.Intent;
-import android.nfc.NdefMessage;
-import android.nfc.NdefRecord;
-import android.nfc.NfcAdapter;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +17,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +37,7 @@ public class ShowProductActivity extends AppCompatActivity {
     protected TextView nfcErrorTextView;
     protected TextView productDescriptionTextView;
     protected ImageView productImageImageView;
+    protected TextView productPriceTextView;
     private DatabaseReference mProductReference;
     protected String payloadString;
     protected Button productBuyButton;
@@ -51,9 +49,9 @@ public class ShowProductActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        payloadString = intent.getStringExtra("nfcPayload");
+        payloadString = intent.getStringExtra("productId");
         setContentView(R.layout.activity_show_product);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbarApp);
         setSupportActionBar(toolbar);
 
         productBuyButton = (Button) findViewById(R.id.productBuyButton);
@@ -64,6 +62,7 @@ public class ShowProductActivity extends AppCompatActivity {
         productDescriptionTextView = (TextView) findViewById(R.id.productDescriptionTextView);
         relatedProductsRecyclerView = (RecyclerView) findViewById(R.id.relatedProductsRecyclerView);
         productContentScrollView = (ScrollView) findViewById(R.id.productContentScrollView);
+        productPriceTextView = findViewById(R.id.productPrice);
 
         this.getDataFromFirebase();
 
@@ -71,7 +70,7 @@ public class ShowProductActivity extends AppCompatActivity {
             public void onClick(View v) {
                 updateCart();
                 Snackbar mySnackbar = Snackbar.make(findViewById(R.id.productContentScrollView),
-                        R.string.add_to_cart, Snackbar.LENGTH_LONG);
+                        R.string.added_to_cart, Snackbar.LENGTH_LONG);
                 mySnackbar.setAction("Zum Warenkorb", new View.OnClickListener() {
                     public void onClick(View v) {
                         ShowProductActivity.this.startActivity(new Intent(ShowProductActivity.this, CartActivity.class));
@@ -98,15 +97,16 @@ public class ShowProductActivity extends AppCompatActivity {
         productContentScrollView.setVisibility(View.GONE);
     }
 
-    private void fillWithJsonData(String productName, String productColor, String productDescription, String productImage){
+    private void fillWithJsonData(String productName, double productPrice, String productDescription, String productImage){
+        productPriceTextView.setText(product.getProductPriceString());
         productNameTextView.setText(productName);
         productDescriptionTextView.setText(productDescription);
-        Glide.with(this).load(productImage).into(productImageImageView);
+        Glide.with(this).load(productImage).transition(DrawableTransitionOptions.withCrossFade()).into(productImageImageView);
         getSupportActionBar().setTitle(productName);
     }
 
     private void setRelatedProducts(ArrayList<RelatedProduct> relatedProducts){
-        RelatedProductsAdapter productsAdapter = new RelatedProductsAdapter(Glide.with(this), relatedProducts);
+        RelatedProductsAdapter productsAdapter = new RelatedProductsAdapter(Glide.with(this), relatedProducts, this);
         relatedProductsRecyclerView.setAdapter(productsAdapter);
         relatedProductsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
@@ -122,11 +122,13 @@ public class ShowProductActivity extends AppCompatActivity {
                 product = dataSnapshot.child(payloadString).getValue(Product.class);
                 if(product != null){
                     showJsonDataView();
-                    fillWithJsonData(product.productName, null, product.productDescription, product.getProductImages(0));
+                    fillWithJsonData(product.productName, product.productPrice, product.productDescription, product.productImage);
                     RelatedProduct relatedProduct;
                     ArrayList<RelatedProduct> relatedProducts = new ArrayList<>();
                     for (int a = 0; a < product.getRelatedProductsLength(); a++){
-                        relatedProduct = dataSnapshot.child(product.getProductId(a)).getValue(RelatedProduct.class);
+                        String relatedProductName = dataSnapshot.child(product.getProductId(a)).child("productName").getValue().toString();
+                        String relatedProductImage = (String) dataSnapshot.child(product.getProductId(a)).child("productImage").getValue();
+                        relatedProduct = new RelatedProduct(relatedProductName, relatedProductImage, product.getProductId(a));
                         relatedProducts.add(relatedProduct);
                     }
                     setRelatedProducts(relatedProducts);

@@ -1,7 +1,6 @@
 package de.dhbw.mosbach.nfccrossmedia;
 
 import android.app.Application;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -43,6 +42,20 @@ public class NFCCrossmediaApplication extends Application {
 
         cartCount += 1;
         alreadyExists = false;
+    }
+
+    public String getCartPrice(){
+        double tmpPrice = 0;
+        for (CartObject thisObject:
+             cartList) {
+            tmpPrice += thisObject.getProduct().productPrice * Double.valueOf(thisObject.getCount());
+        }
+        String tmpString = "";
+        tmpString = Double.toString(tmpPrice);
+        tmpString = tmpString.replace(".", ",");
+        tmpString = tmpString.substring(0, tmpString.indexOf(",") + 3);
+        tmpString += " €";
+        return tmpString;
     }
 
     public void removeFromCart(Product product) {
