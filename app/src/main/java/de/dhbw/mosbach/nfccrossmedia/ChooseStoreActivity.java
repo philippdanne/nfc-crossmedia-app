@@ -46,7 +46,6 @@ public class ChooseStoreActivity extends AppCompatActivity {
         storeRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(ChooseStoreActivity.this, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(ChooseStoreActivity.this, "Clicked on: " + storeList.get(position).getStoreName(), Toast.LENGTH_SHORT).show();
                 Intent nfcIntent = new Intent(ChooseStoreActivity.this, ConfirmActivtiy.class);
                 nfcIntent.putExtra("storeId", storeList.get(position).getKey());
                 ChooseStoreActivity.this.startActivity(nfcIntent);
@@ -83,6 +82,11 @@ public class ChooseStoreActivity extends AppCompatActivity {
         storeRecyclerView.setAdapter(storeAdapter);
     }
 
+    public void storeCalculateDistance(Store thisStore){
+            thisStore.calculateDistance(((NFCCrossmediaApplication) this.getApplication()).getPosterLatitude(), ((NFCCrossmediaApplication) this.getApplication())
+                    .getPosterLongitude());
+    }
+
     public void getStoreList(){
         DatabaseReference fbStoreReference = FirebaseDatabase.getInstance().getReference().child("stores");
 
@@ -96,7 +100,7 @@ public class ChooseStoreActivity extends AppCompatActivity {
                     Store store = storesChild.getValue(Store.class);
                     store.addKey(storesChild.getKey());
                     if (store != null) {
-                        store.calculateDistance(49.350910, 9.148020);
+                        storeCalculateDistance(store);
                         storeList.add(store);
                     } else {
                         showErrorMessage();

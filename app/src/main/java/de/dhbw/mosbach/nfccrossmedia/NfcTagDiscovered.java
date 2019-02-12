@@ -37,6 +37,11 @@ public class NfcTagDiscovered extends AppCompatActivity {
             if (rawMessages != null) {
                 NdefMessage message = (NdefMessage) rawMessages[0];
                 NdefRecord dataRecord = message.getRecords()[1];
+                String recordLat =  new String(message.getRecords()[2].getPayload());
+                String recordLon =  new String(message.getRecords()[3].getPayload());
+
+                ((NFCCrossmediaApplication) this.getApplication()).setPosterLatitude(recordLat);
+                ((NFCCrossmediaApplication) this.getApplication()).setPosterLongitude(recordLon);
 
                 nfcPayloadString = new String(dataRecord.getPayload());
 

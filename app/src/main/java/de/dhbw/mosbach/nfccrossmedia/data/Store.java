@@ -74,6 +74,8 @@ public class Store {
         String distanceToStore;
         String tmpStr = Double.toString(storeDistance);
 
+        Log.i("Geht der hier rein?", tmpStr);
+
         if(storeDistance < 1){
             tmpStr = tmpStr.substring(2, 5);
             distanceToStore = tmpStr + " m";
@@ -104,6 +106,8 @@ public class Store {
                 * Math.sin(dLon / 2);
         double c = 2 * Math.asin(Math.sqrt(a));
         double valueResult = Radius * c;
+
+        Log.i("valueResult", Double.toString(storeDistance));
 
         storeDistance = valueResult;
     }

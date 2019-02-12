@@ -19,4 +19,7 @@
     <string name="care_heading">Pflege</string>
     <string name="thank_you_order">Danke für deine Bestellung!</string>
     <string name="start_route_to_store">Weg zum Store zeigen</string>
+    <string name="related_products_heading" >Dazu passt</string>
+    <string name="total_value">Gesamtsumme</string>
+    <string name="change_order">Warenkorb bearbeiten</string>
 </resources>

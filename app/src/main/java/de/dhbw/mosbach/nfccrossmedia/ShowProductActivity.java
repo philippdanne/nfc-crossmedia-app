@@ -44,6 +44,7 @@ public class ShowProductActivity extends AppCompatActivity {
     protected RecyclerView relatedProductsRecyclerView;
     protected ScrollView productContentScrollView;
     protected Product product;
+    protected TextView productCareContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +52,6 @@ public class ShowProductActivity extends AppCompatActivity {
         Intent intent = getIntent();
         payloadString = intent.getStringExtra("productId");
         setContentView(R.layout.activity_show_product);
-        Toolbar toolbar = findViewById(R.id.toolbarApp);
-        setSupportActionBar(toolbar);
 
         productBuyButton = (Button) findViewById(R.id.productBuyButton);
         productNameTextView = (TextView) findViewById(R.id.productNameTextView);
@@ -63,6 +62,7 @@ public class ShowProductActivity extends AppCompatActivity {
         relatedProductsRecyclerView = (RecyclerView) findViewById(R.id.relatedProductsRecyclerView);
         productContentScrollView = (ScrollView) findViewById(R.id.productContentScrollView);
         productPriceTextView = findViewById(R.id.productPrice);
+        productCareContent = findViewById(R.id.productCareContent);
 
         this.getDataFromFirebase();
 
@@ -97,19 +97,30 @@ public class ShowProductActivity extends AppCompatActivity {
         productContentScrollView.setVisibility(View.GONE);
     }
 
-    private void fillWithJsonData(String productName, double productPrice, String productDescription, String productImage){
+    private void fillWithJsonData(String productName, String careContent, double productPrice, String productDescription, String productImage){
         productPriceTextView.setText(product.getProductPriceString());
         productNameTextView.setText(productName);
         productDescriptionTextView.setText(productDescription);
+        productCareContent.setText(careContent);
         Glide.with(this).load(productImage).transition(DrawableTransitionOptions.withCrossFade()).into(productImageImageView);
-        getSupportActionBar().setTitle(productName);
+    }
+
+    public void includeCareIcons(ArrayList<String> icons){
+        ImageView[] careImages = new ImageView[5];
+        careImages[0] = findViewById(R.id.careImage1);
+        careImages[1] = findViewById(R.id.careImage2);
+        careImages[2] = findViewById(R.id.careImage3);
+        careImages[3] = findViewById(R.id.careImage4);
+        careImages[4] = findViewById(R.id.careImage5);
+        for (int i = 0; i < 5; i++) {
+            Glide.with(this).load(icons.get(i)).transition(DrawableTransitionOptions.withCrossFade()).into(careImages[i]);
+        }
     }
 
     private void setRelatedProducts(ArrayList<RelatedProduct> relatedProducts){
         RelatedProductsAdapter productsAdapter = new RelatedProductsAdapter(Glide.with(this), relatedProducts, this);
         relatedProductsRecyclerView.setAdapter(productsAdapter);
         relatedProductsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-
     }
 
     private void getDataFromFirebase() {
@@ -122,7 +133,8 @@ public class ShowProductActivity extends AppCompatActivity {
                 product = dataSnapshot.child(payloadString).getValue(Product.class);
                 if(product != null){
                     showJsonDataView();
-                    fillWithJsonData(product.productName, product.productPrice, product.productDescription, product.productImage);
+                    fillWithJsonData(product.productName, product.careInstruction, product.productPrice, product.productDescription, product.productImage);
+                    includeCareIcons(product.careInstructionIcons);
                     RelatedProduct relatedProduct;
                     ArrayList<RelatedProduct> relatedProducts = new ArrayList<>();
                     for (int a = 0; a < product.getRelatedProductsLength(); a++){

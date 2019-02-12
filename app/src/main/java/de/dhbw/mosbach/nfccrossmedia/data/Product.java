@@ -18,19 +18,23 @@ public class Product {
     public ArrayList<String> relatedProducts;
     public double productPrice;
     public String prdctId;
+    public String careInstruction;
     public ArrayList<RelatedProduct> prdctsArrayList;
+    public ArrayList<String> careInstructionIcons;
 
     public Product() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public Product(String productName, double productPrice, String productDescription, String productImage, ArrayList<String> relatedProducts) {
+    public Product(String productName, String careInstruction, ArrayList<String> careInstructionIcons, double productPrice, String productDescription, String productImage, ArrayList<String> relatedProducts) {
         this.productName = productName;
         this.productDescription = productDescription;
         this.productImage = productImage;
         this.relatedProducts = relatedProducts;
         this.prdctsArrayList = new ArrayList<>();
         this.productPrice = productPrice;
+        this.careInstruction = careInstruction;
+        this.careInstructionIcons = careInstructionIcons;
     }
 
     public String getProductPriceString(){

@@ -11,11 +11,31 @@ public class NFCCrossmediaApplication extends Application {
     private ArrayList<CartObject> cartList;
     private int cartCount;
     private boolean alreadyExists;
+    private double posterLatitude;
+    private double posterLongitude;
 
     public NFCCrossmediaApplication(){
         cartList = new ArrayList<>();
         cartCount = 0;
         alreadyExists = false;
+        posterLatitude = 0;
+        posterLongitude =  0;
+    }
+
+    public void setPosterLatitude(String nfcLatitude){
+        posterLatitude = Double.valueOf(nfcLatitude);
+    }
+
+    public void setPosterLongitude(String nfcLongitude){
+        posterLongitude = Double.valueOf(nfcLongitude);
+    }
+
+    public double getPosterLatitude(){
+        return posterLatitude;
+    }
+
+    public double getPosterLongitude(){
+        return posterLongitude;
     }
 
     public ArrayList<CartObject> getCart() {

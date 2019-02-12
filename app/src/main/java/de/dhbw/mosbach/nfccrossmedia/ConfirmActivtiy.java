@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
@@ -22,8 +24,13 @@ public class ConfirmActivtiy extends AppCompatActivity {
 
     private TextView storeNameTextView;
     private ImageView storeImageView;
+    private TextView storeAddressTextView;
     private Button confirmButton;
+    private CheckBox checkBoxAgb;
+    private CheckBox checkBoxConditions;
+    private TextView totalPrice;
     private String storeId;
+    private String storeName;
     private double storeLat;
     private double storeLon;
 
@@ -34,21 +41,42 @@ public class ConfirmActivtiy extends AppCompatActivity {
         Intent intent = getIntent();
         storeId = intent.getStringExtra("storeId");
 
+        storeName = "";
+
         storeNameTextView = findViewById(R.id.store_info_name);
         storeImageView = findViewById(R.id.store_info_image);
         confirmButton = findViewById(R.id.reserve_button);
+        checkBoxAgb = findViewById(R.id.agb_check);
+        checkBoxConditions = findViewById(R.id.conditions_check);
+        storeAddressTextView = findViewById(R.id.store_info_address);
+        totalPrice = findViewById(R.id.total_confirm);
+        Button editCartButton = findViewById(R.id.confirm_edit_cart);
+
+
+        editCartButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ConfirmActivtiy.this.startActivity(new Intent(ConfirmActivtiy.this, CartActivity.class));
+            }
+        });
+
+        totalPrice.setText(((NFCCrossmediaApplication) this.getApplication()).getCartPrice());
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Bundle extras = new Bundle();
+                if(checkBoxAgb.isChecked() && checkBoxConditions.isChecked()){
+                    Bundle extras = new Bundle();
 
-                extras.putString("STORE_ID", storeId);
-                extras.putDouble("STORE_LAT", storeLat);
-                extras.putDouble("STORE_LON", storeLon);
+                    extras.putString("STORE_NAME", storeName);
+                    extras.putDouble("STORE_LAT", storeLat);
+                    extras.putDouble("STORE_LON", storeLon);
 
-                Intent intent = new Intent(ConfirmActivtiy.this, ThankYouActivity.class);
-                intent.putExtras(extras);
-                ConfirmActivtiy.this.startActivity(intent);
+                    Intent intent = new Intent(ConfirmActivtiy.this, ThankYouActivity.class);
+                    intent.putExtras(extras);
+                    ConfirmActivtiy.this.startActivity(intent);
+                }
+                else{
+                    Toast.makeText(ConfirmActivtiy.this, "Du musst den Bedingungen zustimmen, bevor du bestellen kannst.", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -57,7 +85,9 @@ public class ConfirmActivtiy extends AppCompatActivity {
 
     public void fillStoreInfo(Store store){
         storeNameTextView.setText(store.getStoreName());
+        storeAddressTextView.setText(store.getStoreAddress());
         Glide.with(this).load(store.getStoreImage()).into(storeImageView);
+        storeName = store.getStoreName();
     }
 
     public void getStoreInfo(){

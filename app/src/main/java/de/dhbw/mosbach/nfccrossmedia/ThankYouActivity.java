@@ -6,11 +6,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class ThankYouActivity extends AppCompatActivity {
 
     private double storeLat;
     private double storeLon;
+    public String storeName;
+    private TextView thankYouContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,8 +22,13 @@ public class ThankYouActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         Bundle extras = intent.getExtras();
+        storeName = extras.getString("STORE_NAME");
         storeLat = extras.getDouble("STORE_LAT");
         storeLon = extras.getDouble("STORE_LON");
+
+        thankYouContent = findViewById(R.id.thank_you_content);
+
+        thankYouContent.setText("Wir haben deine Bestellung erhalten. " + storeName + " wird deine reservierte Ware schnellstmöglich für dich auswählen und dich per Mail informieren, sobald du deine Bestellung abholen kannst.");
 
         Button startRoutetoStore = findViewById(R.id.start_route_to_store);
         startRoutetoStore.setOnClickListener(new View.OnClickListener() {
