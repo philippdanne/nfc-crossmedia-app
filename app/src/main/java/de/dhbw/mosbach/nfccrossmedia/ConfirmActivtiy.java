@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -86,7 +87,7 @@ public class ConfirmActivtiy extends AppCompatActivity {
     public void fillStoreInfo(Store store){
         storeNameTextView.setText(store.getStoreName());
         storeAddressTextView.setText(store.getStoreAddress());
-        Glide.with(this).load(store.getStoreImage()).into(storeImageView);
+        Glide.with(this).load(store.getStoreImage()).transition(DrawableTransitionOptions.withCrossFade()).into(storeImageView);
         storeName = store.getStoreName();
     }
 

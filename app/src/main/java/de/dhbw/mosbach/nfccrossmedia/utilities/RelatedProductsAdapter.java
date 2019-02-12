@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +58,7 @@ public class RelatedProductsAdapter extends
 
         // Set item views based on your views and data model
         holder.nameTextView.setText(relatedProduct.productName);
-        glide.load(relatedProduct.productImage).into(holder.imageImageView);
+        glide.load(relatedProduct.productImage).transition(DrawableTransitionOptions.withCrossFade()).into(holder.imageImageView);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

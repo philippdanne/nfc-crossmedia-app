@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -80,7 +81,7 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.StoreViewHol
     public void onBindViewHolder(StoreViewHolder holder, int position) {
         Store thisStore = storeList.get(position);
         holder.storeNameTextView.setText(thisStore.getStoreName());
-        glide.load(thisStore.getStoreImage()).into(holder.storeImageView);
+        glide.load(thisStore.getStoreImage()).transition(DrawableTransitionOptions.withCrossFade()).into(holder.storeImageView);
         holder.storeAddressTextView.setText(thisStore.getStoreAddress());
         holder.storeDistanceTextView.setText(thisStore.getDistanceString());
         holder.storeAvailabilityView.setText(Html.fromHtml(getInventoryInfo(thisStore)));

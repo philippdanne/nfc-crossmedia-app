@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import java.util.ArrayList;
 
@@ -61,7 +62,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     public void onBindViewHolder(CartViewHolder holder, int position) {
         holder.productNameTextView.setText(cartList.get(position).getProduct().productName);
         holder.productCountTextView.setText(cartList.get(position).getCount());
-        glide.load(cartList.get(position).getProduct().productImage).into(holder.productImageImageView);
+        glide.load(cartList.get(position).getProduct().productImage).transition(DrawableTransitionOptions.withCrossFade()).into(holder.productImageImageView);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
